@@ -11,11 +11,12 @@ namespace FlashCardStudyWeb.Models
         [ForeignKey("User")]
         public int UserId { get; set; }
         [Required]
-        public string? Name { get; set; }
-        public string? Description { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
         [Required]
         public DateTime CreationDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
-        public ICollection<StudySession> StudySessions { get; set; }
+        public ICollection<StudySession> StudySessions { get; set; } = new List<StudySession>();
+        public User User { get; set; }
     }
 }

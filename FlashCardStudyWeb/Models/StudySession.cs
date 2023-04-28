@@ -15,7 +15,8 @@ namespace FlashCardStudyWeb.Models
         public int StackId {  get; set; }
         [Required]
         public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
         public Stack Stack { get; set; }
+        public User User { get; set; }
     }
 }

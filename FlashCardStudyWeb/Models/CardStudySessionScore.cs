@@ -16,5 +16,8 @@ namespace FlashCardStudyWeb.Models
         [Required]
         [Range(1,100)]
         public int Score { get; set; }
+        public FlashCard FlashCard { get; set; }
+        public StudySession StudySession { get; set; }
+
     }
 }
