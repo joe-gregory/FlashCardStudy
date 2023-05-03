@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace FlashCardStudyWeb.Pages
+namespace Web.Pages
 {
     public class PrivacyModel : PageModel
     {

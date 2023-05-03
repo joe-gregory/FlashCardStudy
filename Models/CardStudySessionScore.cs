@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FlashCardStudyWeb.Models
+namespace Models
 {
     public class CardStudySessionScore
     {
@@ -14,7 +14,7 @@ namespace FlashCardStudyWeb.Models
         [ForeignKey("FlashCard")]
         public int FlashCardId { get; set; }
         [Required]
-        [Range(1,100)]
+        [Range(1, 100)]
         public int Score { get; set; }
         public FlashCard FlashCard { get; set; }
         public StudySession StudySession { get; set; }
