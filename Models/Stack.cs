@@ -16,6 +16,7 @@ namespace Models
         [Required]
         public DateTime CreationDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
+        //Reference variables: 
         public ICollection<StudySession> StudySessions { get; set; } = new List<StudySession>();
         public User User { get; set; }
     }
