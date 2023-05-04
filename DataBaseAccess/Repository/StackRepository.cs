@@ -20,7 +20,7 @@ namespace DataBaseAccess.Repository
             Stack? stackFromDB = _context.Stack.FirstOrDefault(u => u.Id == stack.Id);
             if (stackFromDB == null) return;
 
-            stackFromDB.UserId = stack.Id;
+            stackFromDB.UserId = stack.UserId;
             stackFromDB.Name = stack.Name;
             stackFromDB.Description = stack.Description;
 

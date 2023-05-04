@@ -19,7 +19,6 @@ namespace DataBaseAccess.Repository
         {
             StudySession? studySessionFromDB = _db.StudySession.FirstOrDefault(u => u.Id == studySession.Id);
                        if (studySessionFromDB == null) return;
-            studySessionFromDB.UserId = studySession.UserId;
             studySessionFromDB.StackId = studySession.StackId;
             studySessionFromDB.StartTime = studySession.StartTime;
             studySessionFromDB.EndTime = studySession.EndTime;

@@ -8,9 +8,6 @@ namespace Models
         [Key]
         public int Id { get; set; }
         [Required]
-        [ForeignKey("User")]
-        public int UserId { get; set; }
-        [Required]
         [ForeignKey("Stack")]
         public int StackId { get; set; }
         [Required]
@@ -18,6 +15,7 @@ namespace Models
         public DateTime? EndTime { get; set; }
         //Reference variables: 
         public Stack? Stack { get; set; }
-        public User? User { get; set; }
+        public ICollection<CardStudySessionScore> CardStudySessionScores { get; set; } = new List<CardStudySessionScore>();
+
     }
 }

@@ -17,5 +17,6 @@ namespace Models
         public Stack Stack { get; set; } //Reference variable
         [Required]
         public int Order { get; set; }
+        public ICollection<CardStudySessionScore> CardStudySessionScores { get; set; } = new List<CardStudySessionScore>();
     }
 }

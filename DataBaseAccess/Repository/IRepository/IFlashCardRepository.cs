@@ -10,6 +10,6 @@ namespace DataBaseAccess.Repository.IRepository
     public interface IFlashCardRepository
     {
         void Update(FlashCard flashCard);
-        void ReOrder(int stackId);
+        void Reorder(int stackId);
     }
 }

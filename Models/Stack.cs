@@ -9,7 +9,7 @@ namespace Models
         public int Id { get; set; }
         [Required]
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
