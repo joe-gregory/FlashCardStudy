@@ -3,6 +3,7 @@ using DataBaseAccess.Repository.IRepository;
 using DataBaseAccess.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Models;
 
 internal class Program
 {
@@ -16,7 +17,7 @@ internal class Program
             builder.Configuration.GetConnectionString("DefaultConnection")
             ));
 
-        builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+        builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         var app = builder.Build();
