@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DataBaseAccess\DataBaseAccess.csproj" />
     <ProjectReference Include="..\Models\Models.csproj" />
+    <ProjectReference Include="..\Utility\Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

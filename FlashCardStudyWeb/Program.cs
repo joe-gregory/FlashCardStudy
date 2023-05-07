@@ -4,6 +4,8 @@ using DataBaseAccess.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using Utilities;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 internal class Program
 {
@@ -13,11 +15,19 @@ internal class Program
 
         // Add services to the container.
         builder.Services.AddRazorPages();
+        builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
         builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
             builder.Configuration.GetConnectionString("DefaultConnection")
             ));
-
-        builder.Services.AddIdentity<User, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+        builder.Services.AddSingleton<IEmailSender, EmailSender>();
+        builder.Services.AddIdentity<User, IdentityRole>(options =>
+        {
+            options.Password.RequireDigit = false;
+            options.Password.RequiredLength = 7;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequireLowercase = false;
+        }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
         builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         var app = builder.Build();
