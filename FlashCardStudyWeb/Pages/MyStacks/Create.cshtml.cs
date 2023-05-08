@@ -7,21 +7,23 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using DataBaseAccess;
 using Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Web.Pages.MyStacks
 {
     public class CreateModel : PageModel
     {
         private readonly DataBaseAccess.ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public CreateModel(DataBaseAccess.ApplicationDbContext context)
+        public CreateModel(DataBaseAccess.ApplicationDbContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult OnGet()
         {
-        ViewData["UserId"] = new SelectList(_context.User, "Id", "Id");
             return Page();
         }
 
@@ -36,6 +38,8 @@ namespace Web.Pages.MyStacks
             {
                 return Page();
             }
+
+            Stack.UserId = _userManager.GetUserId(User);
 
             _context.Stack.Add(Stack);
             await _context.SaveChangesAsync();

@@ -23,7 +23,7 @@
                             <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-page="/MyStacks/index">My Stacks</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -51,6 +51,13 @@
         <div class="alert alert-dismissible alert-info">
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             <strong>@TempData["Message"]</strong>
+        </div>
+    }
+    @if (TempData["InfoMessage"] != null)
+    {
+        <div class="alert alert-dismissible alert-info">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>@TempData["InfoMessage"]</strong>
         </div>
     }
     <div class="container">

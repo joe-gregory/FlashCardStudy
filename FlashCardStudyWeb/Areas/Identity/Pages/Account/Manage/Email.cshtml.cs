@@ -51,10 +51,7 @@ namespace Web.Areas.Identity.Pages.Account.Manage
             var email = await _userManager.GetEmailAsync(user);
             Email = email;
 
-            Input = new InputModel
-            {
-                NewEmail = email,
-            };
+            Input = new InputModel();
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
         }
@@ -100,8 +97,9 @@ namespace Web.Areas.Identity.Pages.Account.Manage
                     Input.NewEmail,
                     "Confirm your email",
                     $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                StatusMessage = "Confirmation link to change email sent. Please check your email.";
+                user.EmailConfirmed = false;
+                await _userManager.UpdateAsync(user);
+                TempData["InfoMessage"] = "Confirmation link to change email sent. Please check your email.";
                 return RedirectToPage();
             }
 
