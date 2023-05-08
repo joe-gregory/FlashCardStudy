@@ -4,12 +4,18 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Identity.Client;
 using Models;
+using NuGet.Protocol.Core.Types;
 
 namespace Web.Areas.Identity.Pages.Account.Manage
 {
@@ -17,103 +23,83 @@ namespace Web.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly IEmailSender _emailSender;
 
-        public IndexModel(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager)
+        public IndexModel(UserManager<User> userManager, SignInManager<User> signInManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailSender = emailSender;
         }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string Username { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
+        public string Email { get; set; }
+        public bool IsEmailConfirmed { get; set; }
         [TempData]
         public string StatusMessage { get; set; }
-
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
-        public InputModel Input { get; set; }
+        public string UserId { get; set; }
+        public User User { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        public class InputModel
+        public async Task<bool> GetUserAsync()
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
-        }
-
-        private async Task LoadAsync(User user)
-        {
-            var userName = await _userManager.GetUserNameAsync(user);
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-
-            Username = userName;
-
-            Input = new InputModel
+            User = await _userManager.GetUserAsync(base.User);
+            if (User == null)
             {
-                PhoneNumber = phoneNumber
-            };
-        }
+                TempData["ErrorMessage"] = $"Unable to load user with ID '{_userManager.GetUserId(base.User)}'.";
+                return false;
+            }
+            else
+            {
+                var userName = await _userManager.GetUserNameAsync(User);
+                var isEmailConfirmed = await _userManager.IsEmailConfirmedAsync(User);
+                var email = await _userManager.GetEmailAsync(User);
+                var userId = await _userManager.GetUserIdAsync(User);
 
+                Username = userName;
+                IsEmailConfirmed = isEmailConfirmed;
+
+                Email = email;
+                UserId = userId;
+                return true;
+            }
+        }
         public async Task<IActionResult> OnGetAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            if (await GetUserAsync())
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return Page();
             }
-
-            await LoadAsync(user);
-            return Page();
+            else
+            {
+                return NotFound();
+            }
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+            if (await GetUserAsync())
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(User);
+                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                
+                var callbackUrl = Url.Page(
+                    "/Account/ConfirmEmail",
+                    pageHandler: null,
+                    values: new { userId = UserId, code = code },
+                    protocol: Request.Scheme);
+                await _emailSender.SendEmailAsync(
+                    Email,
+                    "Study Stacks: Please confirm your email",
+                    $"<p>Hi!</p> <p>This is Study Stacks. Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.</p>");
 
-            if (!ModelState.IsValid)
-            {
-                await LoadAsync(user);
+                TempData["SuccessMessage"] = "Verification email sent 🚀. Please check your email.";
                 return Page();
             }
-
-            var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            else
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
-                }
+                TempData["ErrorMessage"] = "We had a problem sending your email 😑. Please contact us if problem persists.";
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(base.User)}'.");
             }
-
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
-            return RedirectToPage();
         }
     }
 }

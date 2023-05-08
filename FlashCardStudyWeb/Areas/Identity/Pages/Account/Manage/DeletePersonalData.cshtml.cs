@@ -91,12 +91,14 @@ namespace Web.Areas.Identity.Pages.Account.Manage
             var userId = await _userManager.GetUserIdAsync(user);
             if (!result.Succeeded)
             {
+                TempData["ErrorMessage"] = "An unexpected error occurred while deleting your account.";
                 throw new InvalidOperationException($"Unexpected error occurred deleting user.");
             }
 
             await _signInManager.SignOutAsync();
 
             _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
+            TempData["SuccessMessage"] = "Your account has been successfully deleted.";
 
             return Redirect("~/");
         }

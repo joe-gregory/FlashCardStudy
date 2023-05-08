@@ -21,6 +21,16 @@ namespace Web.Areas.Identity.Pages.Account
     {
         private readonly UserManager<User> _userManager;
         private readonly IEmailSender _emailSender;
+        public string Email { get; set; } = null;
+        public async Task<IActionResult> OnGetAsync()
+        {
+            if (base.User != null && base.User.Identity.IsAuthenticated)
+            {
+                var user = await _userManager.GetUserAsync(base.User);
+                Email = await _userManager.GetEmailAsync(user);
+            }
+            return Page();
+        }
 
         public ForgotPasswordModel(UserManager<User> userManager, IEmailSender emailSender)
         {

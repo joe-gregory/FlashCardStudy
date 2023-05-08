@@ -31,6 +31,28 @@
             </div>
         </nav>
     </header>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-dismissible alert-success">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong> @TempData["SuccessMessage"]</strong>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong> @TempData["ErrorMessage"]</strong>
+        </div>
+    }
+    @if(TempData["Message"] != null)
+    {
+        <div class="alert alert-dismissible alert-info">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <strong>@TempData["Message"]</strong>
+        </div>
+    }
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
