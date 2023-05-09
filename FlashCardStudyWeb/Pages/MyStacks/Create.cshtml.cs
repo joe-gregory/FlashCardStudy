@@ -34,12 +34,20 @@ namespace Web.Pages.MyStacks
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Stack == null || Stack == null)
+            ModelState.Remove("Stack.CreationDate");
+            ModelState.Remove("Stack.LastModifiedDate");
+            ModelState.Remove("Stack.UserId");
+            ModelState.Remove("Stack.User");
+
+            if (!ModelState.IsValid || _context.Stack == null || Stack == null)
             {
+                TempData["ErrorMessage"] = "Invalid input";
                 return Page();
             }
 
             Stack.UserId = _userManager.GetUserId(User);
+            Stack.CreationDate = DateTime.UtcNow;
+            Stack.LastModifiedDate = DateTime.UtcNow;
 
             _context.Stack.Add(Stack);
             await _context.SaveChangesAsync();
