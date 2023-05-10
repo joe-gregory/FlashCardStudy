@@ -30,13 +30,13 @@ namespace Web.Pages.MyStacks
                 return NotFound();
             }
 
-            var stack =  await _context.Stack.FirstOrDefaultAsync(m => m.Id == id);
+            var stack = await _context.Stack.FirstOrDefaultAsync(m => m.Id == id);
             if (stack == null)
             {
                 return NotFound();
             }
             Stack = stack;
-           ViewData["UserId"] = new SelectList(_context.User, "Id", "Id");
+            ViewData["UserId"] = new SelectList(_context.User, "Id", "Id");
             return Page();
         }
 
@@ -44,12 +44,26 @@ namespace Web.Pages.MyStacks
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
+            ModelState.Remove("Stack.CreationDate");
+            ModelState.Remove("Stack.LastModifiedDate");
+            ModelState.Remove("Stack.UserId");
+            ModelState.Remove("Stack.User");
             if (!ModelState.IsValid)
             {
+                TempData["ErrorMessage"] = "Invalid input";
                 return Page();
             }
 
-            _context.Attach(Stack).State = EntityState.Modified;
+            var stackToUpdate = await _context.Stack.FirstOrDefaultAsync(m => m.Id == Stack.Id);
+
+            if (stackToUpdate == null)
+            {
+                TempData["ErrorMessage"] = "Stack not found";
+                return Page();
+            }
+            stackToUpdate.Name = Stack.Name;
+            stackToUpdate.Description = Stack.Description;
+            stackToUpdate.LastModifiedDate = DateTime.UtcNow;
 
             try
             {
@@ -67,12 +81,12 @@ namespace Web.Pages.MyStacks
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./Stack", new { id = Stack.Id});
         }
 
         private bool StackExists(int id)
         {
-          return (_context.Stack?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Stack?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

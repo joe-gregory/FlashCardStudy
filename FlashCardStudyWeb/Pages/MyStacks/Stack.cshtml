@@ -1,0 +1,11 @@
+﻿@page
+@model Web.Pages.MyStacks.StackModel
+@{
+    ViewData["Title"] = "Stack";
+}
+
+<h1>@Model.Stack.Name</h1>
+<p>@Model.Stack.Description</p>
+<a asp-page="./Edit" asp-route-id="@Model.Stack.Id">Edit</a> | <a asp-page="./Delete" asp-route-id="@Model.Stack.Id">Delete</a>
+<hr />
+

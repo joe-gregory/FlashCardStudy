@@ -32,29 +32,31 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Stack) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CreationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastModifiedDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.User.Id)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var stack in Model.Stack)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => stack.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => stack.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => stack.CreationDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => stack.LastModifiedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => stack.User.Id)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@stack.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@stack.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@stack.Id">Delete</a> |
+                    <a asp-page="./Stack" asp-route-id="@stack.Id">Stack</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
