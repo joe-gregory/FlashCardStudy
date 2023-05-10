@@ -1,0 +1,43 @@
+﻿@page
+@model Web.Pages.MyStacks.FlashCards.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>FlashCard</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FlashCard.Front)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FlashCard.Front)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FlashCard.Back)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FlashCard.Back)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FlashCard.Stack)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FlashCard.Stack.Description)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FlashCard.Order)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FlashCard.Order)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.FlashCard?.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>
