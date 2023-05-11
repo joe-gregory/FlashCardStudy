@@ -1,4 +1,5 @@
 ﻿using DataBaseAccess.Repository.IRepository;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Models;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,26 @@ namespace DataBaseAccess.Repository
             {
                 flashCardStack[i - 1].Order = i;
             }
+        }
+
+        public void InsertAndReorder(FlashCard flashCard)
+        {
+            Reorder(flashCard.StackId);
+            var flashCardsInStack = GetAll(c => c.StackId == flashCard.StackId, orderby: cards => cards.OrderBy(c => c.Order)).ToList();
+            if(flashCard.Order < 1) { flashCard.Order = 1; }
+            if(flashCard.Order <= flashCardsInStack.Count)
+            {
+                foreach(var card in flashCardsInStack.Where(c => c.Order >= flashCard.Order))
+                {
+                    card.Order++;
+                }
+            }
+            else
+            {
+                flashCard.Order = flashCardsInStack.Count + 1;
+            }
+            Add(flashCard);
+            _db.SaveChanges();
         }
     }
 }

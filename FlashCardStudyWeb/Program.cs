@@ -19,6 +19,7 @@ internal class Program
         builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
             builder.Configuration.GetConnectionString("DefaultConnection")
             ));
+        builder.Services.AddScoped<FlashCardRepository>();
         builder.Services.AddSingleton<IEmailSender, EmailSender>();
         builder.Services.AddIdentity<User, IdentityRole>(options =>
         {

@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataBaseAccess", "DataBaseAccess\DataBaseAccess.csproj", "{39C0B27C-A30C-4770-83A0-BF2BD5EE0A7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utility\Utilities.csproj", "{57CFC58C-EE1C-4BBF-BBEA-DB45040BD542}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utility\Utilities.csproj", "{57CFC58C-EE1C-4BBF-BBEA-DB45040BD542}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

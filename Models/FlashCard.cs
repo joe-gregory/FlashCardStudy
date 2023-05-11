@@ -14,7 +14,7 @@ namespace Models
         public string Front { get; set; }
         [Required]
         public string Back { get; set; }
-        public Stack Stack { get; set; } //Reference variable
+        public Stack? Stack { get; set; } //Reference variable
         [Required]
         public int Order { get; set; }
         public ICollection<CardStudySessionScore> CardStudySessionScores { get; set; } = new List<CardStudySessionScore>();

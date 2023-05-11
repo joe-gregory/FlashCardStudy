@@ -8,4 +8,71 @@
 <p>@Model.Stack.Description</p>
 <a asp-page="./Edit" asp-route-id="@Model.Stack.Id">Edit</a> | <a asp-page="./Delete" asp-route-id="@Model.Stack.Id">Delete</a>
 <hr />
+<h4>Add FlashCard</h4>
+<form method="post">
+    <table class="table  bg-light" style="width:100%">
+        <thead class="text-center">
+            <tr>
+                <th class="align-top col" style="max-width: 10%;">
+                    <label>Card#</label>
+                    <input asp-for="NewFlashCard.Order" class="form-control" />
+                </th>
+                <th>
+                    <div class="card border-primary mb-3" style="max-width: 20rem;">
+                        <div class="card-header border-0">Front</div>
+                        <div class="card-body">
+                            <textarea asp-for="NewFlashCard.Front" class="form-control border-0"></textarea>
+                        </div>
+                    </div>
+                </th>
+                <th>
+                    <div class="card border-primary mb-3" style="max-width: 20rem;">
+                        <div class="card-header border-0">Back</div>
+                        <div class="card-body">
+                            <textarea asp-for="NewFlashCard.Back" class="form-control border-0"></textarea>
+                        </div>
+                    </div>
+                </th>
+                <th class="align-middle">
+                        <button type="submit" class="btn btn-success ">Create</button>
+                </th>
+            </tr>
+        </thead>
+    </table>
+</form>
+
+<hr />
+<table class="table  bg-light" style="width:100%">
+    <thead class="text-center">
+        <tr>
+            <th>Card#</th>
+            <th>Front</th>
+            <th>Back</th>
+            <th>Edit/Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var card in Model.Stack.FlashCards)
+        {
+            <tr>
+                <td class="text-center align-middle">@card.Order</td>
+                <td>@await Html.PartialAsync("_FlashCard", card.Front)</td>
+                <td>@await Html.PartialAsync("_FlashCard", card.Back)</td>
+                <td class="align-middle">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <div class="btn-group align-items-center" role="group">
+                            <a asp-page="Edit" asp-route-id="@card.Id" class="btn btn-primary mx-2">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <a asp-page="Delete" asp-route-id="@card.Id" class="btn btn-danger mx-2">
+                                <i class="bi bi-trash-fill"></i>
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
 

@@ -19,5 +19,6 @@ namespace Models
         //Reference variables: 
         public ICollection<StudySession> StudySessions { get; set; } = new List<StudySession>();
         public User User { get; set; }
+        public ICollection<FlashCard> FlashCards { get; set; }
     }
 }
