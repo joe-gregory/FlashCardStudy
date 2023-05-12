@@ -8,7 +8,10 @@
 <p>@Model.Stack.Description</p>
 <a asp-page="./Edit" asp-route-id="@Model.Stack.Id" class="btn btn-info">Edit</a> | <a asp-page="./Delete" asp-route-id="@Model.Stack.Id" class="btn btn-danger">Delete</a>
 <hr />
-<h4>Add FlashCard</h4>
+<h2>Start Study Session</h2>
+<a class="btn btn-success" asp-route-order="orderly">Start study session in order</a> | <a class="btn btn-warning" asp-route-order="randomly">Start random order study session</a>
+<hr />
+<h2>Add FlashCard</h2>
 <form method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
     <table class="table  bg-light" style="width:100%">
@@ -17,6 +20,7 @@
                 <th class="align-top" width="10%">
                     <label>Card#</label>
                     <input asp-for="NewFlashCard.Order" class="form-control" />
+                    <small class="form-text text-muted">Leave blank to add at the end of the stack.</small>
                 </th>
                 <th>
                     <div class="card border-primary mb-3">
