@@ -8,20 +8,23 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DataBaseAccess;
 using Models;
+using DataBaseAccess.Repository;
 
 namespace Web.Pages.MyStacks.FlashCards
 {
     public class EditModel : PageModel
     {
         private readonly DataBaseAccess.ApplicationDbContext _context;
+        private readonly FlashCardRepository _flashCardRepository;
 
-        public EditModel(DataBaseAccess.ApplicationDbContext context)
+        public EditModel(DataBaseAccess.ApplicationDbContext context, FlashCardRepository flashCardRepository)
         {
             _context = context;
+            _flashCardRepository = flashCardRepository;
         }
 
         [BindProperty]
-        public FlashCard FlashCard { get; set; } = default!;
+        public FlashCard UpdatedFlashCard { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,49 +33,34 @@ namespace Web.Pages.MyStacks.FlashCards
                 return NotFound();
             }
 
-            var flashcard =  await _context.FlashCard.FirstOrDefaultAsync(m => m.Id == id);
+            var flashcard = await _context.FlashCard.FirstOrDefaultAsync(m => m.Id == id);
             if (flashcard == null)
             {
                 return NotFound();
             }
-            FlashCard = flashcard;
-           ViewData["StackId"] = new SelectList(_context.Stack, "Id", "Description");
+            UpdatedFlashCard = flashcard;
+            ViewData["StackId"] = new SelectList(_context.Stack, "Id", "Description");
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int? id)
         {
             if (!ModelState.IsValid)
             {
+                TempData["ErrorMessage"] = "Invalid input";
                 return Page();
             }
 
-            _context.Attach(FlashCard).State = EntityState.Modified;
+            _flashCardRepository.Update(UpdatedFlashCard);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FlashCardExists(FlashCard.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Stack", new { id = UpdatedFlashCard.StackId });
         }
 
         private bool FlashCardExists(int id)
         {
-          return (_context.FlashCard?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.FlashCard?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

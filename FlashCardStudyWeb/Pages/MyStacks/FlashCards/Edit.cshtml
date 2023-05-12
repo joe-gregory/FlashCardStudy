@@ -13,26 +13,26 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="FlashCard.Id" />
+            <input type="hidden" asp-for="UpdatedFlashCard.Id" />
             <div class="form-group">
-                <label asp-for="FlashCard.StackId" class="control-label"></label>
-                <select asp-for="FlashCard.StackId" class="form-control" asp-items="ViewBag.StackId"></select>
-                <span asp-validation-for="FlashCard.StackId" class="text-danger"></span>
+                <label asp-for="UpdatedFlashCard.StackId" class="control-label"></label>
+                <select asp-for="UpdatedFlashCard.StackId" class="form-control" asp-items="ViewBag.StackId"></select>
+                <span asp-validation-for="UpdatedFlashCard.StackId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FlashCard.Front" class="control-label"></label>
-                <input asp-for="FlashCard.Front" class="form-control" />
-                <span asp-validation-for="FlashCard.Front" class="text-danger"></span>
+                <label asp-for="UpdatedFlashCard.Front" class="control-label"></label>
+                <input asp-for="UpdatedFlashCard.Front" class="form-control" />
+                <span asp-validation-for="UpdatedFlashCard.Front" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FlashCard.Back" class="control-label"></label>
-                <input asp-for="FlashCard.Back" class="form-control" />
-                <span asp-validation-for="FlashCard.Back" class="text-danger"></span>
+                <label asp-for="UpdatedFlashCard.Back" class="control-label"></label>
+                <input asp-for="UpdatedFlashCard.Back" class="form-control" />
+                <span asp-validation-for="UpdatedFlashCard.Back" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FlashCard.Order" class="control-label"></label>
-                <input asp-for="FlashCard.Order" class="form-control" />
-                <span asp-validation-for="FlashCard.Order" class="text-danger"></span>
+                <label asp-for="UpdatedFlashCard.Order" class="control-label"></label>
+                <input asp-for="UpdatedFlashCard.Order" class="form-control" />
+                <span asp-validation-for="UpdatedFlashCard.Order" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

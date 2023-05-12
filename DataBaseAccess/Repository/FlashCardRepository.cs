@@ -20,16 +20,36 @@ namespace DataBaseAccess.Repository
 
         public void Update(FlashCard flashCard)
         {
+            var stack = GetAll(c => c.StackId == flashCard.StackId, orderby: cards => cards.OrderBy(c => c.Order)).ToList();
             FlashCard? flashCardFromDataBase = _db.FlashCard.FirstOrDefault(u => u.Id == flashCard.Id);
             if (flashCardFromDataBase == null) return;
-            
-                flashCardFromDataBase.StackId = flashCard.StackId;
-                flashCardFromDataBase.Front = flashCard.Front;
-                flashCardFromDataBase.Back = flashCard.Back;
-                flashCardFromDataBase.Order = flashCard.Order;
+            if (flashCard.Order < flashCardFromDataBase.Order)
+            {
+                foreach (var card in stack.Where(c => c.Order >= flashCard.Order))
+                {
+                    card.Order++;
+                }
+            }
+            else if(flashCardFromDataBase.Order < flashCard.Order)
+            {
+                foreach (var card in stack.Where(c => c.Order > flashCard.Order))
+                {
+                    card.Order++;
+                }
+                foreach(var card in stack.Where(c => c.Order > flashCardFromDataBase.Order && c.Order <= flashCard.Order))
+                {
+                    card.Order--;
+                }
+            }
 
-                Reorder(flashCardFromDataBase.StackId);
-            
+
+            flashCardFromDataBase.StackId = flashCard.StackId;
+            flashCardFromDataBase.Front = flashCard.Front;
+            flashCardFromDataBase.Back = flashCard.Back;
+            flashCardFromDataBase.Order = flashCard.Order;
+            _db.SaveChanges();
+            Reorder(flashCard.StackId);
+
         }
         public new void Remove(FlashCard flashCard)
         {
@@ -46,16 +66,17 @@ namespace DataBaseAccess.Repository
             {
                 flashCardStack[i - 1].Order = i;
             }
+            _db.SaveChanges();
         }
 
         public void InsertAndReorder(FlashCard flashCard)
         {
             Reorder(flashCard.StackId);
             var flashCardsInStack = GetAll(c => c.StackId == flashCard.StackId, orderby: cards => cards.OrderBy(c => c.Order)).ToList();
-            if(flashCard.Order < 1) { flashCard.Order = 1; }
-            if(flashCard.Order <= flashCardsInStack.Count)
+            if (flashCard.Order < 1) { flashCard.Order = 1; }
+            if (flashCard.Order <= flashCardsInStack.Count)
             {
-                foreach(var card in flashCardsInStack.Where(c => c.Order >= flashCard.Order))
+                foreach (var card in flashCardsInStack.Where(c => c.Order >= flashCard.Order))
                 {
                     card.Order++;
                 }
