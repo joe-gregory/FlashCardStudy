@@ -6,7 +6,7 @@
 
 <h1>@Model.Stack.Name</h1>
 <p>@Model.Stack.Description</p>
-<a asp-page="./Edit" asp-route-id="@Model.Stack.Id">Edit</a> | <a asp-page="./Delete" asp-route-id="@Model.Stack.Id">Delete</a>
+<a asp-page="./Edit" asp-route-id="@Model.Stack.Id" class="btn btn-info">Edit</a> | <a asp-page="./Delete" asp-route-id="@Model.Stack.Id" class="btn btn-danger">Delete</a>
 <hr />
 <h4>Add FlashCard</h4>
 <form method="post">

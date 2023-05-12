@@ -54,8 +54,8 @@ namespace DataBaseAccess.Repository
         public new void Remove(FlashCard flashCard)
         {
             dbSet.Remove(flashCard);
+            _db.SaveChanges();
             Reorder(flashCard.StackId);
-
         }
         public void Reorder(int stackId)
         {

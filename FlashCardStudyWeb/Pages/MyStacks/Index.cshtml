@@ -8,7 +8,7 @@
 <h1>My Stacks</h1>
 
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create" class="btn btn-primary">Create New Stack</a>
 </p>
 <table class="table">
     <thead>
@@ -25,9 +25,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.Stack[0].LastModifiedDate)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stack[0].User)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -36,7 +33,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => stack.Name)
+                    <a asp-page="./Stack" asp-route-id="@stack.Id">@Html.DisplayFor(modelItem => stack.Name)</a>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => stack.Description)
@@ -48,13 +45,11 @@
                     @Html.DisplayFor(modelItem => stack.LastModifiedDate)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => stack.User.Id)
-                </td>
-                <td>
+                    <a asp-page="./Stack" asp-route-id="@stack.Id">Go To Stack</a> |
                     <a asp-page="./Edit" asp-route-id="@stack.Id">Edit</a> |
                     <a asp-page="./Details" asp-route-id="@stack.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@stack.Id">Delete</a> |
-                    <a asp-page="./Stack" asp-route-id="@stack.Id">Stack</a>
+                    <a asp-page="./Delete" asp-route-id="@stack.Id">Delete</a>
+                    
                 </td>
             </tr>
         }

@@ -7,16 +7,19 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using DataBaseAccess;
 using Models;
+using DataBaseAccess.Repository;
 
 namespace Web.Pages.MyStacks.FlashCards
 {
     public class DeleteModel : PageModel
     {
         private readonly DataBaseAccess.ApplicationDbContext _context;
+        private readonly FlashCardRepository _flashCardRepository;
 
-        public DeleteModel(DataBaseAccess.ApplicationDbContext context)
+        public DeleteModel(DataBaseAccess.ApplicationDbContext context, FlashCardRepository flashCardRepository)
         {
             _context = context;
+            _flashCardRepository = flashCardRepository;
         }
 
         [BindProperty]
@@ -29,7 +32,9 @@ namespace Web.Pages.MyStacks.FlashCards
                 return NotFound();
             }
 
-            var flashcard = await _context.FlashCard.FirstOrDefaultAsync(m => m.Id == id);
+            var flashcard = await _context.FlashCard
+                .Include(f => f.Stack)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (flashcard == null)
             {
@@ -44,20 +49,21 @@ namespace Web.Pages.MyStacks.FlashCards
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
+            var flashCard = await _context.FlashCard.FirstOrDefaultAsync(m => m.Id == id);
+            if (flashCard == null)
+            {
+                return NotFound();
+            }
+            FlashCard = flashCard;
+            int stackId = FlashCard.StackId;
             if (id == null || _context.FlashCard == null)
             {
                 return NotFound();
             }
-            var flashcard = await _context.FlashCard.FindAsync(id);
+            _flashCardRepository.Remove(FlashCard);
+            TempData["SuccessMessage"] = "Flashcard deleted successfully";
 
-            if (flashcard != null)
-            {
-                FlashCard = flashcard;
-                _context.FlashCard.Remove(FlashCard);
-                await _context.SaveChangesAsync();
-            }
-
-            return RedirectToPage("./Index");
+            return RedirectToPage("../Stack", new { id = stackId });
         }
     }
 }

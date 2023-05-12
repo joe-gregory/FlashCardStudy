@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using DataBaseAccess;
 using Models;
 using DataBaseAccess.Repository;
+using System.Collections;
 
 namespace Web.Pages.MyStacks.FlashCards
 {
@@ -54,13 +55,9 @@ namespace Web.Pages.MyStacks.FlashCards
             }
 
             _flashCardRepository.Update(UpdatedFlashCard);
+            TempData["SuccessMessage"] = "Flashcard updated successfully";
 
             return RedirectToPage("../Stack", new { id = UpdatedFlashCard.StackId });
-        }
-
-        private bool FlashCardExists(int id)
-        {
-            return (_context.FlashCard?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
