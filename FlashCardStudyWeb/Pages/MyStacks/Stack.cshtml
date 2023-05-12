@@ -10,15 +10,16 @@
 <hr />
 <h4>Add FlashCard</h4>
 <form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
     <table class="table  bg-light" style="width:100%">
         <thead class="text-center">
             <tr>
-                <th class="align-top col" style="max-width: 10%;">
+                <th class="align-top" width="10%">
                     <label>Card#</label>
                     <input asp-for="NewFlashCard.Order" class="form-control" />
                 </th>
                 <th>
-                    <div class="card border-primary mb-3" style="max-width: 20rem;">
+                    <div class="card border-primary mb-3">
                         <div class="card-header border-0">Front</div>
                         <div class="card-body">
                             <textarea asp-for="NewFlashCard.Front" class="form-control border-0"></textarea>
@@ -26,7 +27,7 @@
                     </div>
                 </th>
                 <th>
-                    <div class="card border-primary mb-3" style="max-width: 20rem;">
+                    <div class="card border-primary mb-3">
                         <div class="card-header border-0">Back</div>
                         <div class="card-body">
                             <textarea asp-for="NewFlashCard.Back" class="form-control border-0"></textarea>
@@ -34,7 +35,7 @@
                     </div>
                 </th>
                 <th class="align-middle">
-                        <button type="submit" class="btn btn-success ">Create</button>
+                    <button type="submit" class="btn btn-success ">Create</button>
                 </th>
             </tr>
         </thead>
