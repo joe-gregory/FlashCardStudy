@@ -47,6 +47,8 @@ namespace DataBaseAccess.Repository
             flashCardFromDataBase.Front = flashCard.Front;
             flashCardFromDataBase.Back = flashCard.Back;
             flashCardFromDataBase.Order = flashCard.Order;
+            Stack thisCardsStack = _db.Stack.FirstOrDefault(c => c.Id == flashCard.StackId);
+            thisCardsStack.LastModifiedDate = DateTime.UtcNow;
             _db.SaveChanges();
             Reorder(flashCard.StackId);
 
@@ -54,6 +56,8 @@ namespace DataBaseAccess.Repository
         public new void Remove(FlashCard flashCard)
         {
             dbSet.Remove(flashCard);
+            Stack stack = _db.Stack.FirstOrDefault(c => c.Id == flashCard.StackId);
+            stack.LastModifiedDate = DateTime.UtcNow;
             _db.SaveChanges();
             Reorder(flashCard.StackId);
         }
@@ -86,6 +90,8 @@ namespace DataBaseAccess.Repository
                 flashCard.Order = flashCardsInStack.Count + 1;
             }
             Add(flashCard);
+            Stack stack = _db.Stack.FirstOrDefault(c => c.Id == flashCard.StackId);
+            stack.LastModifiedDate = DateTime.UtcNow;
             _db.SaveChanges();
         }
     }
