@@ -50,7 +50,6 @@ namespace Web.Pages.MyStacks
             _flashCardRepository.InsertAndReorder(NewFlashCard);
             TempData["SuccessMessage"] = "New flash card added to stack! ❤️";
             return RedirectToPage(new { id = id });
-
         }
     }
 }

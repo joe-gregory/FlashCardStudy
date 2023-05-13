@@ -1,0 +1,11 @@
+﻿@page
+@model Web.Pages.MyStacks.ScoreModel
+@{
+}
+<h1>Study Session</h1>
+<h2>Score:</h2>
+<h3>@Model.StudySession.Score %</h3>
+<p><a asp-page="./stack" asp-route-id="@Model.StudySession.StackId">Stack: @Model.StudySession.Stack.Name</a></p>
+<p>Amount of questions: @Model.StudySession.Turns</p>
+<p>Right answers: @Model.StudySession.RightScores</p>
+<p>Wrong answers: @Model.StudySession.WrongScores</p>

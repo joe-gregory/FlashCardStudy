@@ -22,6 +22,7 @@ namespace DataBaseAccess.Repository
             studySessionFromDB.StackId = studySession.StackId;
             studySessionFromDB.StartTime = studySession.StartTime;
             studySessionFromDB.EndTime = studySession.EndTime;
+            _db.SaveChanges();
         }
     }
 }

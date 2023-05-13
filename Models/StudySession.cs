@@ -13,9 +13,13 @@ namespace Models
         [Required]
         public DateTime StartTime { get; set; }
         public DateTime? EndTime { get; set; }
+        public int Turns { get; set; }
+        public double? Score { get; set; }
+        public int? RightScores { get; set; }
+        public int? WrongScores { get; set; }
         //Reference variables: 
         public Stack? Stack { get; set; }
-        public ICollection<CardStudySessionScore> CardStudySessionScores { get; set; } = new List<CardStudySessionScore>();
+        public ICollection<CardStudySessionScore>? CardStudySessionScores { get; set; } = new List<CardStudySessionScore>();
 
     }
 }

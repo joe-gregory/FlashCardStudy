@@ -15,5 +15,15 @@ namespace DataBaseAccess.Repository
         {
             _db = db;
         }
+        public void Update(CardStudySessionScore cardStudySessionScore)
+        {
+            CardStudySessionScore? cardStudySessionScoreFromDB = _db.CardStudySessionScore.FirstOrDefault(u => u.Id == cardStudySessionScore.Id);
+            if (cardStudySessionScoreFromDB == null) return;
+            cardStudySessionScoreFromDB.StudySessionId = cardStudySessionScore.StudySessionId;
+            cardStudySessionScoreFromDB.FlashCardId = cardStudySessionScore.FlashCardId;
+            cardStudySessionScoreFromDB.Turn = cardStudySessionScore.Turn;
+            cardStudySessionScoreFromDB.Score = cardStudySessionScore.Score;
+            _db.SaveChanges();
+        }
     }
 }

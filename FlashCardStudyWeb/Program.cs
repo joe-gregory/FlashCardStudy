@@ -20,6 +20,9 @@ internal class Program
             builder.Configuration.GetConnectionString("DefaultConnection")
             ));
         builder.Services.AddScoped<FlashCardRepository>();
+        builder.Services.AddScoped<StackRepository>();
+        builder.Services.AddScoped<StudySessionRepository>();
+        builder.Services.AddScoped<CardStudySessionScoreRepository>();
         builder.Services.AddSingleton<IEmailSender, EmailSender>();
         builder.Services.AddIdentity<User, IdentityRole>(options =>
         {

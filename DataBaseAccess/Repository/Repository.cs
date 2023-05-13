@@ -23,6 +23,7 @@ namespace DataBaseAccess.Repository
         public void Add(T entity)
         {
             dbSet.Add(entity);
+            _db.SaveChanges();
         }
 
         public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderby = null, string? includeProperties = null)
@@ -70,11 +71,13 @@ namespace DataBaseAccess.Repository
         public void Remove(T entity)
         {
             dbSet.Remove(entity);
+            _db.SaveChanges();
         }
 
         public void RemoveRange(IEnumerable<T> entity)
         {
             dbSet.RemoveRange(entity);
+            _db.SaveChanges();
         }
     }
 }

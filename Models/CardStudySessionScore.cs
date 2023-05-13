@@ -13,11 +13,13 @@ namespace Models
         [Required]
         [ForeignKey("FlashCard")]
         public int FlashCardId { get; set; }
+        public int Turn { get; set; }
         [Required]
         [Range(1, 100)]
         public int Score { get; set; }
-        public FlashCard FlashCard { get; set; }
-        public StudySession StudySession { get; set; }
+        //Navigation variables:
+        public FlashCard? FlashCard { get; set; }
+        public StudySession? StudySession { get; set; }
 
     }
 }
