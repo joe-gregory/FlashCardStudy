@@ -24,10 +24,10 @@
             @Html.DisplayFor(model => model.FlashCard.Back)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.FlashCard.Stack)
+            Stack Name
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.FlashCard.Stack.Description)
+            @Html.DisplayFor(model => model.FlashCard.Stack.Name)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FlashCard.Order)
@@ -36,6 +36,14 @@
             @Html.DisplayFor(model => model.FlashCard.Order)
         </dd>
     </dl>
+</div>
+<hr />
+<div>
+    <h2> Average Score: @Model.AverageScore %</h2>
+</div>
+<div>
+    <h2>Performance History</h2>
+    @await Html.PartialAsync("_Graph", Tuple.Create((List<string>)ViewData["Dates"], (List<double>)ViewData["Scores"], "This Flash Card Performance", "bar"))
 </div>
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.FlashCard?.Id">Edit</a> |

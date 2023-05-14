@@ -14,13 +14,13 @@
 <h2>Add FlashCard</h2>
 <form method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
-    <table class="table  bg-light" style="width:100%">
+    <table class="table  bg-light">
         <thead class="text-center">
             <tr>
                 <th class="align-top" width="10%">
                     <label>Card#</label>
                     <input asp-for="NewFlashCard.Order" class="form-control" />
-                    <small class="form-text text-muted">Leave blank to add at the end of the stack.</small>
+                    <small class="form-text text-muted">Leave blank to add at end</small>
                 </th>
                 <th>
                     <div class="card border-primary mb-3">
@@ -47,13 +47,13 @@
 </form>
 
 <hr />
-<table class="table  bg-light" style="width:100%">
+<table class="table  bg-light">
     <thead class="text-center">
         <tr>
             <th>Card#</th>
             <th>Front</th>
             <th>Back</th>
-            <th>Edit/Delete</th>
+            <th>Edit/Delete/Stats</th>
         </tr>
     </thead>
     <tbody>
@@ -72,6 +72,9 @@
                             <a asp-page="/MyStacks/FlashCards/Delete" asp-route-id="@card.Id" class="btn btn-danger mx-2">
                                 <i class="bi bi-trash-fill"></i>
                             </a>
+                            <a asp-page="/MyStacks/FlashCards/Details" asp-route-id="@card.Id" class="btn btn-warning mx-2">
+                                <i class="bi bi-lightbulb"></i>
+                            </a>
                         </div>
                     </div>
                 </td>
@@ -79,5 +82,10 @@
         }
     </tbody>
 </table>
+<hr />
+<h2>Performance History</h2>
+@await Html.PartialAsync("_Graph", Tuple.Create((List<string>)ViewData["Dates"], (List<double>)ViewData["Scores"], Model.Stack.Name, "line"))
+
+
 
 

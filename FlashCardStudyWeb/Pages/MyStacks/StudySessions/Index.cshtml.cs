@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DataBaseAccess;
 using Models;
 
-namespace Web.Pages.MyStacks.FlashCards
+namespace Web.Pages.MyStacks.StudySessions
 {
     public class IndexModel : PageModel
     {
@@ -18,15 +18,18 @@ namespace Web.Pages.MyStacks.FlashCards
         {
             _context = context;
         }
-        public IList<FlashCard> FlashCard { get;set; } = default!;
+
+        public IList<StudySession> StudySessions { get;set; } = default!;
+
         public async Task OnGetAsync()
         {
-            if (_context.FlashCard != null)
+            if (_context.StudySession != null)
             {
-                FlashCard = await _context.FlashCard
-                .Include(f => f.Stack).ToListAsync();
+                StudySessions = await _context.StudySession
+                .Include(s => s.Stack)
+                .OrderByDescending(s => s.StartTime)
+                .ToListAsync();
             }
-
         }
     }
 }

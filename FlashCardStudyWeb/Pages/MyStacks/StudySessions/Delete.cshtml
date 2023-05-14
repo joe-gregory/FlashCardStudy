@@ -1,0 +1,64 @@
+﻿@page
+@model Web.Pages.MyStacks.StudySessions.DeleteModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>StudySession</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StudySession.StartTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StudySession.StartTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StudySession.EndTime)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StudySession.EndTime)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StudySession.Turns)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StudySession.Turns)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StudySession.Score)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StudySession.Score)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StudySession.RightScores)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StudySession.RightScores)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StudySession.WrongScores)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StudySession.WrongScores)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.StudySession.Stack)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StudySession.Stack.Description)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="StudySession.Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">Back to List</a>
+    </form>
+</div>

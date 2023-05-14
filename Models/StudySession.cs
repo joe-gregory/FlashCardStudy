@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Models
@@ -15,7 +16,9 @@ namespace Models
         public DateTime? EndTime { get; set; }
         public int Turns { get; set; }
         public double? Score { get; set; }
+        [DisplayName("Right Answers")]
         public int? RightScores { get; set; }
+        [DisplayName("Wrong Answers")]
         public int? WrongScores { get; set; }
         //Reference variables: 
         public Stack? Stack { get; set; }

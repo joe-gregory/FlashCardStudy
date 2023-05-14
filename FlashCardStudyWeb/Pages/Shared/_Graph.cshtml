@@ -1,0 +1,27 @@
+﻿<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+@model Tuple<List<string>, List<double>, string, string>
+
+<canvas id="lineChart"></canvas>
+<script>
+    var labels = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item1));
+    var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item2));
+
+    var ctxL = document.getElementById("lineChart").getContext('2d');
+    var myLineChart = new Chart(ctxL, {
+        type: '@Model.Item4',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: '@Model.Item3', 
+                data: data,
+                backgroundColor: 'rgba(105, 0, 132, .2)',
+                borderColor: 'rgba(200, 99, 132, .7)',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+</script>
