@@ -114,7 +114,7 @@ namespace Web.Pages.MyStacks
                     }
                     StudySession.RightScores = correctAnswers;
                     StudySession.WrongScores = wrongAnswers;
-                    StudySession.Score = Math.Round(((double)correctAnswers / (wrongAnswers + correctAnswers)) * 100);
+                    StudySession.Score = Math.Round(((double)correctAnswers / (wrongAnswers + correctAnswers)) * 100,2);
                     StudySession.EndTime = DateTime.UtcNow;
                     _studySessionRepository.Update(StudySession);
                     return RedirectToPage("/MyStacks/Score", new { studySessionId = StudySession.Id });

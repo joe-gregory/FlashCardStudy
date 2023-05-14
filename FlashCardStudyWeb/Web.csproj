@@ -39,6 +39,7 @@
   <ItemGroup>
     <Folder Include="Areas\Identity\Data\" />
     <Folder Include="Controllers\" />
+    <Folder Include="Pages\MyStacks\NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>
