@@ -14,6 +14,9 @@ namespace Web.Pages.MyStacks
         [BindProperty]
         public FlashCard NewFlashCard { get; set; }
         public IList<StudySession> StudySessions { get; set; }
+        public IList<FlashCard> FlashCards { get; set; } = new List<FlashCard>();
+        public IList<double> FlashCardsAverageScores { get; set; } = new List<double>();
+        public IList<int> FlashCardAmountStudied { get; set; } = new List<int>();
 
         public StackModel(DataBaseAccess.ApplicationDbContext db, FlashCardRepository flashCardRepository)
         {
@@ -43,6 +46,23 @@ namespace Web.Pages.MyStacks
             // Pass these lists as properties
             ViewData["Dates"] = dates;
             ViewData["Scores"] = scores;
+
+            //Average flashcard score
+            foreach(var flashCard in Stack.FlashCards)
+            {
+                FlashCards.Add(flashCard);
+                var cardStudySessions = _db.CardStudySessionScore.Where(csss => csss.FlashCardId == flashCard.Id);
+                double score = 0.0;
+                int amount = 0;
+                foreach(var css in cardStudySessions)
+                {
+                    if (css.Score != null) score += css.Score;
+                    amount++;
+                }
+                FlashCardAmountStudied.Add(amount);
+                double average = Math.Round(amount > 0 ?  ((double)score / amount)*100 : 0, 2);
+                FlashCardsAverageScores.Add(average);
+            }
 
             return Page();
 

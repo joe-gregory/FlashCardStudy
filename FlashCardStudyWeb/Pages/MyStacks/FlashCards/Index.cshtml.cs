@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using DataBaseAccess;
 using Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Pages.MyStacks.FlashCards
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly DataBaseAccess.ApplicationDbContext _context;
@@ -18,15 +21,23 @@ namespace Web.Pages.MyStacks.FlashCards
         {
             _context = context;
         }
-        public IList<FlashCard> FlashCard { get;set; } = default!;
+        public IList<FlashCard> FlashCards { get; set; } = new List<FlashCard>();
         public async Task OnGetAsync()
         {
-            if (_context.FlashCard != null)
-            {
-                FlashCard = await _context.FlashCard
-                .Include(f => f.Stack).ToListAsync();
-            }
 
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var stacks = await _context.Stack
+                .Where(s => s.UserId == userId)
+                .Include(s => s.FlashCards)
+                .ToListAsync();
+
+            foreach (var stack in stacks)
+            {
+                foreach (var flashCard in stack.FlashCards)
+                {
+                    FlashCards.Add(flashCard);
+                }
+            }
         }
     }
 }

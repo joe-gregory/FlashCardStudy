@@ -10,50 +10,57 @@
 <p>
     <a asp-page="Create" class="btn btn-primary">Create New Stack</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Stack[0].Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stack[0].Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stack[0].CreationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Stack[0].LastModifiedDate)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var stack in Model.Stack)
-        {
+<div class="table-responsive">
+    <table class="table">
+        <thead>
             <tr>
-                <td>
-                    <a asp-page="./Stack" asp-route-id="@stack.Id">@Html.DisplayFor(modelItem => stack.Name)</a>
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => stack.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => stack.CreationDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => stack.LastModifiedDate)
-                </td>
-                <td>
-                    <a asp-page="./Stack" asp-route-id="@stack.Id">Go To Stack</a> |
-                    <a asp-page="./Edit" asp-route-id="@stack.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@stack.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@stack.Id">Delete</a>
-                    
-                </td>
+                <th>
+                    @Html.DisplayNameFor(model => model.Stacks[0].Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Stacks[0].Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Stacks[0].CreationDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Stacks[0].LastModifiedDate)
+                </th>
+                <th>
+                    Average Score
+                </th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Stacks.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <a asp-page="./Stack" asp-route-id="@Model.Stacks[i].Id">@Html.DisplayFor(_ => Model.Stacks[i].Name)</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(_ => Model.Stacks[i].Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(_ => Model.Stacks[i].CreationDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(_ => Model.Stacks[i].LastModifiedDate)
+                    </td>
+                    <td>
+                        @Model.AverageScores[i]%
+                    </td>
+                    <td>
+                        <a asp-page="./Stack" asp-route-id="@Model.Stacks[i].Id">Go To Stack</a> |
+                        <a asp-page="./Edit" asp-route-id="@Model.Stacks[i].Id">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@Model.Stacks[i].Id">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@Model.Stacks[i].Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 <hr />
-<a asp-page="/StudySessions/Index">Manage Study Sessions Data</a>
+<a asp-page="./StudySessions/Index">Manage Study Sessions Data</a>

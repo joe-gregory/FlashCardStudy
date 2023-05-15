@@ -14,22 +14,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FlashCard[0].Front)
+                @Html.DisplayNameFor(model => model.FlashCards[0].Front)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FlashCard[0].Back)
+                @Html.DisplayNameFor(model => model.FlashCards[0].Back)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FlashCard[0].Stack)
+                @Html.DisplayNameFor(model => model.FlashCards[0].Stack)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FlashCard[0].Order)
+                @Html.DisplayNameFor(model => model.FlashCards[0].Order)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.FlashCard) {
+@foreach (var item in Model.FlashCards) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Front)

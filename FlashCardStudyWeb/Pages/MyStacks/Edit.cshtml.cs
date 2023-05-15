@@ -8,9 +8,13 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DataBaseAccess;
 using Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Collections;
+using System.Security.Claims;
 
 namespace Web.Pages.MyStacks
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         private readonly DataBaseAccess.ApplicationDbContext _context;
@@ -30,7 +34,10 @@ namespace Web.Pages.MyStacks
                 return NotFound();
             }
 
-            var stack = await _context.Stack.FirstOrDefaultAsync(m => m.Id == id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            ////
+            var stack = await _context.Stack.FirstOrDefaultAsync(s => s.Id == id && s.UserId == userId);
             if (stack == null)
             {
                 return NotFound();
@@ -81,7 +88,7 @@ namespace Web.Pages.MyStacks
                 }
             }
 
-            return RedirectToPage("./Stack", new { id = Stack.Id});
+            return RedirectToPage("./Stack", new { id = Stack.Id });
         }
 
         private bool StackExists(int id)

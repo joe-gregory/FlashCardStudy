@@ -47,41 +47,47 @@
 </form>
 
 <hr />
-<table class="table  bg-light">
-    <thead class="text-center">
-        <tr>
-            <th>Card#</th>
-            <th>Front</th>
-            <th>Back</th>
-            <th>Edit/Delete/Stats</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var card in Model.Stack.FlashCards)
-        {
+<div class="table-responsive">
+    <table class="table  bg-light table-hover">
+        <thead class="text-center">
             <tr>
-                <td class="text-center align-middle">@card.Order</td>
-                <td>@await Html.PartialAsync("_FlashCard", card.Front)</td>
-                <td>@await Html.PartialAsync("_FlashCard", card.Back)</td>
-                <td class="align-middle">
-                    <div class="d-flex justify-content-center align-items-center">
-                        <div class="btn-group align-items-center" role="group">
-                            <a asp-page="/MyStacks/FlashCards/Edit" asp-route-id="@card.Id" class="btn btn-primary mx-2">
-                                <i class="bi bi-pencil-square"></i>
-                            </a>
-                            <a asp-page="/MyStacks/FlashCards/Delete" asp-route-id="@card.Id" class="btn btn-danger mx-2">
-                                <i class="bi bi-trash-fill"></i>
-                            </a>
-                            <a asp-page="/MyStacks/FlashCards/Details" asp-route-id="@card.Id" class="btn btn-warning mx-2">
-                                <i class="bi bi-lightbulb"></i>
-                            </a>
-                        </div>
-                    </div>
-                </td>
+                <th>Card#</th>
+                <th>Front</th>
+                <th>Back</th>
+                <th>Average Score</th>
+                <th>Times Studied</th>
+                <th>Edit/Delete/Stats</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody class="text-center">
+            @for (int i = 0; i < Model.Stack.FlashCards.Count; i++)
+            {
+                <tr>
+                    <td class="text-center align-middle">@Model.FlashCards[i].Order</td>
+                    <td>@await Html.PartialAsync("_FlashCard",  @Model.FlashCards[i].Front)</td>
+                    <td>@await Html.PartialAsync("_FlashCard", @Model.FlashCards[i].Back)</td>
+                    <td>@Model.FlashCardsAverageScores[i]%</td>
+                    <td>@Model.FlashCardAmountStudied[i]</td>
+                    <td class="align-middle">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="btn-group align-items-center" role="group">
+                                <a asp-page="/MyStacks/FlashCards/Edit" asp-route-id="@Model.FlashCards[i].Id" class="btn btn-primary mx-2">
+                                    <i class="bi bi-pencil-square"></i>
+                                </a>
+                                <a asp-page="/MyStacks/FlashCards/Delete" asp-route-id="@Model.FlashCards[i].Id" class="btn btn-danger mx-2">
+                                    <i class="bi bi-trash-fill"></i>
+                                </a>
+                                <a asp-page="/MyStacks/FlashCards/Details" asp-route-id="@Model.FlashCards[i].Id" class="btn btn-warning mx-2">
+                                    <i class="bi bi-lightbulb"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 <hr />
 <h2>Performance History</h2>
 @await Html.PartialAsync("_Graph", Tuple.Create((List<string>)ViewData["Dates"], (List<double>)ViewData["Scores"], Model.Stack.Name, "line"))
