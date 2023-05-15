@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using DataBaseAccess;
 using Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Pages.MyStacks.StudySessions
 {
+    [Authorize]
     public class DeleteModel : PageModel
     {
         private readonly DataBaseAccess.ApplicationDbContext _context;
@@ -29,9 +32,9 @@ namespace Web.Pages.MyStacks.StudySessions
                 return NotFound();
             }
 
-            var studysession = await _context.StudySession.FirstOrDefaultAsync(m => m.Id == id);
-
-            if (studysession == null)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var studysession = await _context.StudySession.Include(s => s.Stack).FirstOrDefaultAsync(m => m.Id == id);
+            if (studysession == null || studysession.Stack.UserId != userId)
             {
                 return NotFound();
             }
@@ -48,8 +51,12 @@ namespace Web.Pages.MyStacks.StudySessions
             {
                 return NotFound();
             }
-            var studysession = await _context.StudySession.FindAsync(id);
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var studysession = await _context.StudySession.Include(ss => ss.Stack).FirstOrDefaultAsync(ss => ss.Id == id);
+            if(studysession == null || studysession.Stack.UserId != userId)
+            {
+                return NotFound();
+            }
             if (studysession != null)
             {
                 StudySession = studysession;

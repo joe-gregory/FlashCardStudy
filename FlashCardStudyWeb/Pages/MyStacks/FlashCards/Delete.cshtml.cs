@@ -8,9 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using DataBaseAccess;
 using Models;
 using DataBaseAccess.Repository;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Web.Pages.MyStacks.FlashCards
 {
+    [Authorize]
     public class DeleteModel : PageModel
     {
         private readonly DataBaseAccess.ApplicationDbContext _context;
@@ -31,12 +34,12 @@ namespace Web.Pages.MyStacks.FlashCards
             {
                 return NotFound();
             }
-
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var flashcard = await _context.FlashCard
                 .Include(f => f.Stack)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (flashcard == null)
+            if (flashcard == null || flashcard.Stack.UserId != userId)
             {
                 return NotFound();
             }

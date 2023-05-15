@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using DataBaseAccess;
 using Models;
+using System.Security.Claims;
 
 namespace Web.Pages.MyStacks.StudySessions
 {
@@ -28,8 +29,9 @@ namespace Web.Pages.MyStacks.StudySessions
                 return NotFound();
             }
 
-            var studysession = await _context.StudySession.FirstOrDefaultAsync(m => m.Id == id);
-            if (studysession == null)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var studysession = await _context.StudySession.Include(s => s.Stack).FirstOrDefaultAsync(m => m.Id == id);
+            if (studysession == null || studysession.Stack.UserId != userId)
             {
                 return NotFound();
             }

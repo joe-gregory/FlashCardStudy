@@ -8,9 +8,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DataBaseAccess;
 using Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Web.Pages.MyStacks.StudySessions
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         private readonly DataBaseAccess.ApplicationDbContext _context;
@@ -29,9 +32,9 @@ namespace Web.Pages.MyStacks.StudySessions
             {
                 return NotFound();
             }
-
-            var studysession =  await _context.StudySession.FirstOrDefaultAsync(m => m.Id == id);
-            if (studysession == null)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var studysession =  await _context.StudySession.Include(s => s.Stack).FirstOrDefaultAsync(m => m.Id == id);
+            if (studysession == null || studysession.Stack.UserId != userId)
             {
                 return NotFound();
             }
@@ -44,7 +47,9 @@ namespace Web.Pages.MyStacks.StudySessions
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var stack = await _context.Stack.FirstOrDefaultAsync(s => s.Id == StudySession.StackId);
+            if (!ModelState.IsValid || stack.UserId != userId)
             {
                 return Page();
             }

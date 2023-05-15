@@ -25,7 +25,7 @@ namespace Web.Pages.MyStacks
         }
 
         [BindProperty]
-        public Stack Stack { get; set; } = default!;
+        public Models.Stack Stack { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -36,7 +36,6 @@ namespace Web.Pages.MyStacks
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            ////
             var stack = await _context.Stack.FirstOrDefaultAsync(s => s.Id == id && s.UserId == userId);
             if (stack == null)
             {

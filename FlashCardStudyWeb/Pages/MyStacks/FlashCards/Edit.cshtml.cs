@@ -10,9 +10,12 @@ using DataBaseAccess;
 using Models;
 using DataBaseAccess.Repository;
 using System.Collections;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Pages.MyStacks.FlashCards
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         private readonly DataBaseAccess.ApplicationDbContext _context;
@@ -33,14 +36,14 @@ namespace Web.Pages.MyStacks.FlashCards
             {
                 return NotFound();
             }
-
-            var flashcard = await _context.FlashCard.FirstOrDefaultAsync(m => m.Id == id);
-            if (flashcard == null)
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var flashcard = await _context.FlashCard.Include(f => f.Stack).FirstOrDefaultAsync(m => m.Id == id);
+            if (flashcard == null || flashcard.Stack.UserId != userId)
             {
                 return NotFound();
             }
             UpdatedFlashCard = flashcard;
-            ViewData["StackId"] = new SelectList(_context.Stack, "Id", "Description");
+            ViewData["StackId"] = new SelectList(_context.Stack.Where(s => s.UserId == userId), "Id", "Description");
             return Page();
         }
 
@@ -52,6 +55,13 @@ namespace Web.Pages.MyStacks.FlashCards
             {
                 TempData["ErrorMessage"] = "Invalid input";
                 return Page();
+            }
+
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var flashcard = await _context.FlashCard.Include(f => f.Stack).FirstOrDefaultAsync(m => m.Id == id);
+            if (flashcard == null || flashcard.Stack.UserId != userId)
+            {
+                return NotFound();
             }
 
             _flashCardRepository.Update(UpdatedFlashCard);

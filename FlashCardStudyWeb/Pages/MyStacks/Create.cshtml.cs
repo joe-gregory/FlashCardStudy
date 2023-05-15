@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using DataBaseAccess;
 using Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Pages.MyStacks
 {
+    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly DataBaseAccess.ApplicationDbContext _context;

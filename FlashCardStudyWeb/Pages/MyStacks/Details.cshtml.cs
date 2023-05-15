@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using DataBaseAccess;
 using Models;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Pages.MyStacks
 {
+    [Authorize]
     public class DetailsModel : PageModel
     {
         private readonly DataBaseAccess.ApplicationDbContext _context;
@@ -28,7 +31,9 @@ namespace Web.Pages.MyStacks
                 return NotFound();
             }
 
-            var stack = await _context.Stack.FirstOrDefaultAsync(m => m.Id == id);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var stack = await _context.Stack.FirstOrDefaultAsync(s => s.Id == id && s.UserId == userId);
             if (stack == null)
             {
                 return NotFound();

@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using DataBaseAccess;
 using Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Web.Pages.MyStacks.FlashCards
 {
+    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly DataBaseAccess.ApplicationDbContext _context;
@@ -21,7 +24,8 @@ namespace Web.Pages.MyStacks.FlashCards
 
         public IActionResult OnGet()
         {
-        ViewData["StackId"] = new SelectList(_context.Stack, "Id", "Description");
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewData["StackId"] = new SelectList(_context.Stack.Where(s => s.UserId == userId), "Id", "Description");
             return Page();
         }
 

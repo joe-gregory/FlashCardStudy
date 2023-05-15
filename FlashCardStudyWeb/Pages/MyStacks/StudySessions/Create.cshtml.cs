@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using DataBaseAccess;
 using Models;
+using System.Security.Claims;
 
 namespace Web.Pages.MyStacks.StudySessions
 {
@@ -21,7 +22,8 @@ namespace Web.Pages.MyStacks.StudySessions
 
         public IActionResult OnGet()
         {
-        ViewData["StackId"] = new SelectList(_context.Stack, "Id", "Description");
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            ViewData["StackId"] = new SelectList(_context.Stack.Where(s => s.UserId == userId), "Id", "Description");
             return Page();
         }
 

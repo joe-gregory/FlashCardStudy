@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using System.Security.Claims;
 
 namespace Web.Pages.MyStacks
 {
@@ -25,7 +26,10 @@ namespace Web.Pages.MyStacks
         }
         private async Task LoadStack(int? id)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             Stack = await _db.Stack
+                .Where(s => s.Id == id && s.UserId == userId)
                 .Include(s => s.FlashCards.OrderBy(f => f.Order))
                 .FirstOrDefaultAsync(m => m.Id == id);
         }
