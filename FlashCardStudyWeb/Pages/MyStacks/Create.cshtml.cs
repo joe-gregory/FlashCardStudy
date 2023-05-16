@@ -53,7 +53,7 @@ namespace Web.Pages.MyStacks
 
             _context.Stack.Add(Stack);
             await _context.SaveChangesAsync();
-
+            TempData["SuccessMessage"] = "Stack created successfully!";
             return RedirectToPage("./Index");
         }
     }

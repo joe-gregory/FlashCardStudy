@@ -5,16 +5,19 @@
 }
 
 <h1>Study Session for @Model.Stack.Name</h1>
-
-@await Html.PartialAsync("_FlashCard", @Model.CurrentFlashCard.Front)
-<div id="answer" style="display: none;">
-    @await Html.PartialAsync("_FlashCard", @Model.CurrentFlashCard.Back)
+<div class="mt-4">
+    @await Html.PartialAsync("_FlashCard", @Model.CurrentFlashCard.Front)
 </div>
 
-<a class="btn btn-danger" id="wrong" asp-page="./StudySession" asp-route-studySessionId="@Model.StudySession.Id" asp-route-turn="@Model.Turn" asp-route-score="0" asp-route-stackId="@Model.Stack.Id"><i class="bi bi-arrow-left"></i>Wrong</a>
-<a class="btn btn-info" id="showAnswer" onclick="$('#answer').show();">Show Answer</a>
-<a class="btn btn-success" id="right" asp-page="./StudySession" asp-route-studySessionId="@Model.StudySession.Id" asp-route-turn="@Model.Turn" asp-route-score="1" asp-route-stackId="@Model.Stack.Id">Right<i class="bi bi-arrow-right"></i></a>
-<div class="progress">
+<div id="answer" style="display: none;" class="mt-4">
+    @await Html.PartialAsync("_FlashCard", @Model.CurrentFlashCard.Back)
+</div>
+<div class="btn-group mt-2">
+    <a class="btn btn-danger" id="wrong" asp-page="./StudySession" asp-route-studySessionId="@Model.StudySession.Id" asp-route-turn="@Model.Turn" asp-route-score="0" asp-route-stackId="@Model.Stack.Id"><i class="bi bi-arrow-left"></i>Wrong</a>
+    <a class="btn btn-info" id="showAnswer" onclick="$('#answer').show();">Show Answer</a>
+    <a class="btn btn-success" id="right" asp-page="./StudySession" asp-route-studySessionId="@Model.StudySession.Id" asp-route-turn="@Model.Turn" asp-route-score="1" asp-route-stackId="@Model.Stack.Id">Right<i class="bi bi-arrow-right"></i></a>
+</div>
+<div class="progress mt-4 mb-4">
     <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="@(((double)Model.Turn/Model.StudySession.Turns)*100)" aria-valuemin="0" aria-valuemax="100" style="width:@(((double)Model.Turn/Model.StudySession.Turns)*100)%;"></div>
 </div>
 @section Scripts {

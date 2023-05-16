@@ -6,10 +6,16 @@
 
 <h1>@Model.Stack.Name</h1>
 <p>@Model.Stack.Description</p>
-<a asp-page="./Edit" asp-route-id="@Model.Stack.Id" class="btn btn-info">Edit</a> | <a asp-page="./Delete" asp-route-id="@Model.Stack.Id" class="btn btn-danger">Delete</a>
+<div class="btn-group">
+    <a asp-page="./Edit" asp-route-id="@Model.Stack.Id" class="btn btn-info">Edit</a><a asp-page="./Delete" asp-route-id="@Model.Stack.Id" class="btn btn-danger">Delete</a>
+</div>
 <hr />
 <h2>Start Study Session</h2>
-<a class="btn btn-success" asp-route-order="orderly" asp-route-stackId="@Model.Stack.Id" asp-page="./StudySession">Start study session in order</a> | <a class="btn btn-warning" asp-route-order="randomly" asp-page="./StudySession" asp-route-stackId="@Model.Stack.Id">Start random order study session</a>
+<div class="btn-group">
+
+
+    <a class="btn btn-success" asp-route-order="orderly" asp-route-stackId="@Model.Stack.Id" asp-page="./StudySession">Start study session in order</a><a class="btn btn-warning" asp-route-order="randomly" asp-page="./StudySession" asp-route-stackId="@Model.Stack.Id">Start random order study session</a>
+</div>
 <hr />
 <h2>Add FlashCard</h2>
 <form method="post">

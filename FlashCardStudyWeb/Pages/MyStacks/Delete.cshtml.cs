@@ -62,6 +62,8 @@ namespace Web.Pages.MyStacks
                 await _context.SaveChangesAsync();
             }
 
+            TempData["SuccessMessage"] = "Stack deleted successfully!";
+
             return RedirectToPage("./Index");
         }
     }
