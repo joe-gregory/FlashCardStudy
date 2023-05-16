@@ -2,7 +2,7 @@
 
 Study Stacks is a powerful online learning platform designed to facilitate efficient and effective studying through the use of flash cards. The platform is written in C# and utilizes Razor Pages for a seamless user experience.
 
-![Study Stacks Logo](logo.png)
+![Study Stacks Logo](logo.PNG)
 
 ## About Flash Cards
 
