@@ -21,5 +21,3 @@ Study Stacks is built with C# using the ASP.NET Core framework. Razor Pages, a f
 Study Stacks is easy to use. Simply sign up for a free account and start creating your own flash cards. You can organize your cards into different stacks for various subjects or study topics.
 
 We hope you enjoy using Study Stacks as much as we enjoyed building it. Happy studying!
-
-visit www.studystacks.com to get started.
